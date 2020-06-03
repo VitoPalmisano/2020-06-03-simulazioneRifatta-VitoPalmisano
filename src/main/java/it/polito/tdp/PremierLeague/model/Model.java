@@ -1,6 +1,7 @@
 package it.polito.tdp.PremierLeague.model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.jgrapht.Graph;
@@ -50,5 +51,9 @@ public class Model {
 			}
 		}
 		return temp;
+	}
+	
+	public List<Player> getPlayersBattuti(Player p){
+		return Graphs.successorListOf(grafo, p);
 	}
 }
