@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.PremierLeague.model.Model;
+import it.polito.tdp.PremierLeague.model.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -45,16 +46,54 @@ public class FXMLController {
     @FXML
     void doCreaGrafo(ActionEvent event) {
 
+    	txtResult.clear();
+    	
+    	double mediaMin;
+    	
+    	try {
+			mediaMin = Double.parseDouble(txtGoals.getText());
+		}catch(NumberFormatException nfe) {
+			txtResult.setText("Inserire un numero di goals valido");
+			return;
+		}
+    	
+    	model.creaGrafo(mediaMin);
+    	
+    	txtResult.setText("Creato grafo con "+model.getNumVertici()+" vertici "+model.getNumArchi()+" archi");
+    	
     }
 
     @FXML
     void doDreamTeam(ActionEvent event) {
 
+    	txtResult.clear();
+    	
+    	int numGiocatori;
+    	
+    	try {
+    		numGiocatori = Integer.parseInt(txtK.getText());
+		}catch(NumberFormatException nfe) {
+			txtResult.setText("Inserire un valore valido di giocatori per il dream team");
+			return;
+		}
+    	
+    	model.ricorsione(numGiocatori);
+    	
+    	txtResult.setText("Creato dream team con grado: "+model.getGrado());
+    	for(Player p : model.getTeam()) {
+    		txtResult.appendText("\n"+p);
+    	}
     }
 
     @FXML
     void doTopPlayer(ActionEvent event) {
 
+    	txtResult.clear();
+    	Player player = model.topPlayer();
+    	txtResult.setText("Top player: "+player+"\nHa battuto in ordine di delta: ");
+    	for(Player p : model.getAvversari(player)) {
+    		txtResult.appendText("\n"+p);
+    	}
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
